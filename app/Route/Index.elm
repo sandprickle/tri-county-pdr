@@ -4,13 +4,13 @@ import BackendTask exposing (BackendTask)
 import FatalError exposing (FatalError)
 import Head
 import Head.Seo as Seo
-import Html
+import Html.Styled as Html
 import Pages.Url
 import PagesMsg exposing (PagesMsg)
-import UrlPath
 import Route
 import RouteBuilder exposing (App, StatelessRoute)
 import Shared
+import UrlPath
 import View exposing (View)
 
 
@@ -57,7 +57,7 @@ head :
 head app =
     Seo.summary
         { canonicalUrlOverride = Nothing
-        , siteName = "elm-pages"
+        , siteName = "Tri-County Paintless Dent Repair"
         , image =
             { url = [ "images", "icon-png.png" ] |> UrlPath.join |> Pages.Url.fromPath
             , alt = "elm-pages logo"
@@ -66,7 +66,7 @@ head app =
             }
         , description = "Welcome to elm-pages!"
         , locale = Nothing
-        , title = "elm-pages is running"
+        , title = "Tri-County Paintless Dent Repair"
         }
         |> Seo.website
 
@@ -76,13 +76,11 @@ view :
     -> Shared.Model
     -> View (PagesMsg Msg)
 view app shared =
-    { title = "elm-pages is running"
+    { title = "Tri-County Paintless Dent Repair"
     , body =
         [ Html.h1 [] [ Html.text "elm-pages is up and running!" ]
         , Html.p []
             [ Html.text <| "The message is: " ++ app.data.message
             ]
-        , Route.Blog__Slug_ { slug = "hello" }
-            |> Route.link [] [ Html.text "My blog post" ]
         ]
     }
