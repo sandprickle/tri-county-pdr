@@ -10,6 +10,7 @@ import PagesMsg exposing (PagesMsg)
 import Route
 import RouteBuilder exposing (App, StatelessRoute)
 import Shared
+import Tailwind.Utilities as Tw
 import UrlPath
 import View exposing (View)
 
