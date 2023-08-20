@@ -18,7 +18,7 @@
     "elm-tooling": "^1.14.0",
     "postcss": "^8.4.28",
     "tailwindcss": "^3.3.3",
-    "vite": "^4.3.5"
+    "vite": "^4.3.9"
   },
   "dependencies": {
     "@netlify/functions": "^1.4.0"
