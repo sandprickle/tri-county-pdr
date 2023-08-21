@@ -13,7 +13,6 @@ module.exports = {
           lightest: '#8a8bde',
           light: '#474ADE',
         },
-        trans: 'rgba(255,255,255,0.8)',
       },
       fontSize: {
         '2xs': '.6rem',

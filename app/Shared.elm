@@ -1,6 +1,7 @@
 module Shared exposing (Data, Model, Msg(..), SharedMsg(..), template)
 
 import BackendTask exposing (BackendTask)
+import Css
 import Css.Global
 import Effect exposing (Effect)
 import FaIcon
@@ -34,6 +35,7 @@ template =
 type Msg
     = SharedMsg SharedMsg
     | ToggleMenu
+    | HideMenu
 
 
 type alias Data =
@@ -76,6 +78,9 @@ update msg model =
 
         ToggleMenu ->
             ( { model | showMenu = not model.showMenu }, Effect.none )
+
+        HideMenu ->
+            ( { model | showMenu = False }, Effect.none )
 
 
 subscriptions : UrlPath -> Model -> Sub Msg
@@ -169,6 +174,90 @@ view sharedData page model toMsg pageView =
                             []
                         ]
 
+                    -- Nav
+                    , Html.nav
+                        [ css
+                            [ if model.showMenu then
+                                Tw.fixed
+
+                              else
+                                Tw.hidden
+                            , Tw.top_0
+                            , Tw.left_0
+                            , Tw.w_11over12
+                            , Tw.h_full
+                            , Tw.p_4
+                            , Tw.pt_20
+                            , Tw.bg_color Theme.gray_300
+                            , Tw.bg_opacity_95
+                            , Breakpoints.sm
+                                [ Tw.w_80
+                                ]
+                            , Breakpoints.lg
+                                [ Tw.static
+                                , Tw.block
+                                , Tw.flex_grow
+                                , Tw.max_w_sm
+                                , Tw.w_auto
+                                , Tw.h_auto
+                                , Tw.p_0
+                                , Tw.bg_color Theme.transparent
+                                ]
+                            , Breakpoints.xl
+                                [ Tw.max_w_lg
+                                ]
+                            , Breakpoints.xxl
+                                [ Tw.max_w_2xl
+                                ]
+                            ]
+                        ]
+                        [ Html.ul
+                            [ css
+                                [ Tw.text_color Theme.brand_normal
+                                , Tw.uppercase
+                                , Tw.leading_loose
+                                , Tw.text_2xl
+                                , Tw.flex
+                                , Tw.flex_col
+                                , Tw.items_center
+                                , Tw.justify_evenly
+                                , Breakpoints.lg
+                                    [ Tw.flex_row
+                                    , Tw.text_xl
+                                    ]
+                                , Breakpoints.xl
+                                    [ Tw.text_2xl
+                                    ]
+                                ]
+                            ]
+                          <|
+                            List.map
+                                (\( href, text ) ->
+                                    let
+                                        highlightStyle =
+                                            [ Tw.text_color Theme.brand_light ]
+                                    in
+                                    Html.li
+                                        [ Events.onClick HideMenu
+                                        , css
+                                            [ Breakpoints.lg [ Tw.inline ] ]
+                                        ]
+                                        [ Html.a
+                                            [ Attr.href href
+                                            , css
+                                                [ Css.hover highlightStyle
+                                                , Css.focus highlightStyle
+                                                ]
+                                            ]
+                                            [ Html.text text ]
+                                        ]
+                                )
+                                [ ( "/", "Home" )
+                                , ( "/showcase", "Showcase" )
+                                , ( "/process", "Process" )
+                                ]
+                        ]
+
                     -- CTA buttons
                     , Html.div [ css [ Tw.flex, Tw.gap_2 ] ]
                         [ viewCtaLink
@@ -180,7 +269,7 @@ view sharedData page model toMsg pageView =
                         , viewCtaLink
                             { icon = FaIcon.fileInvoice
                             , text = "Get Quote"
-                            , href = "#"
+                            , href = "/quote"
                             , title = "Get Quote"
                             }
                         ]
@@ -202,6 +291,10 @@ viewCtaLink :
     }
     -> Html Msg
 viewCtaLink { icon, text, href, title } =
+    let
+        highlightStyle =
+            [ Tw.bg_color Theme.brand_light ]
+    in
     Html.a
         [ Attr.href href
         , Attr.title title
@@ -216,6 +309,8 @@ viewCtaLink { icon, text, href, title } =
             , Tw.items_center
             , Tw.justify_center
             , Breakpoints.md [ Tw.px_4 ]
+            , Css.hover highlightStyle
+            , Css.focus highlightStyle
             ]
         ]
         [ Html.div
